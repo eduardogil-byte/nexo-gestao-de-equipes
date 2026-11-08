@@ -1,0 +1,33 @@
+NEXO — FRONTEND REACT + TAILWIND
+================================
+
+1. Abra a pasta Nexo-Frontend-React no VS Code.
+2. Abra um terminal na pasta (precisa ter Node.js instalado).
+3. Execute: npm install
+4. Execute: npm run dev
+5. Abra: http://localhost:5173
+
+IMPORTANTE: O backend .NET 8 + SQL Server deve estar executando
+em http://localhost:5088 em OUTRO terminal.
+
+Primeiro acesso:
+- Cadastre-se na tela inicial.
+- Use o script do backend para promover o primeiro coordenador.
+- Faça login, aprove outros usuários e crie projetos.
+
+Comandos de validação:
+  npm run typecheck
+  npm run build
+  npm run test:api
+
+Configuração:
+- Copie .env.example para .env se necessário.
+- Altere VITE_BACKEND_URL para outra porta do backend.
+
+Atenção: não foi possível instalar dependências npm nem validar
+build neste ambiente. Sintaxe TS/TSX e referências internas foram
+checadas. Consulte README.md e docs/ROTEIRO_TESTES.md.
+
+Identidade: Paleta A (azul institucional). O logo original enviado
+pela equipe está em public/logo-referencia.png e um símbolo vetorial
+aproximado está em public/nexo-mark.svg.

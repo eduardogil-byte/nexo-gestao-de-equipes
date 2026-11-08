@@ -1,0 +1,35 @@
+NEXO — BACKEND .NET 8 + SQL SERVER (TESTE NO SENAI)
+===================================================
+
+1. Instale/abra SDK .NET 8 e uma instância do SQL Server.
+2. Abra o PowerShell na pasta deste arquivo.
+3. Execute:
+
+   .\scripts\configurar-senai.ps1 -SqlInstance '.\SQLEXPRESS'
+   dotnet restore .\Nexo.Backend.sln
+   dotnet build .\Nexo.Backend.sln
+   .\scripts\iniciar-senai.ps1
+
+4. Acesse http://localhost:5088/swagger e faça o cadastro em POST /api/auth/register.
+5. Pare a API (Ctrl+C) e execute:
+
+   .\scripts\primeiro-admin.ps1 -Email 'SEU_EMAIL_CADASTRADO'
+
+6. Inicie novamente:
+
+   .\scripts\iniciar-senai.ps1
+
+7. Faça login em POST /api/auth/login no Swagger, copie o accessToken,
+   clique em Authorize e cole somente o token.
+8. Teste GET /api/health/database e GET /api/dashboard.
+
+PROBLEMAS COMUNS:
+- Instância diferente? Use -SqlInstance '.' ou '(localdb)\MSSQLLocalDB'.
+- Banco não cria? O login Windows precisa ter permissão no SQL Server.
+- Sem restaurar pacotes? Verifique internet/NuGet no computador.
+- 'Jwt:Key não configurado'? Reexecute configurar-senai.ps1.
+- Porta ocupada? Feche o processo ou ajuste URLs do script e README.
+
+Leia o README.md para detalhes de API, segurança e limitações.
+.NET 8 perde suporte oficial em 10/11/2026: apenas piloto compatível.
+O pacote contém CÓDIGO-FONTE (não binários compilados).

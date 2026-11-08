@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+.vs/
+.vscode/.ropeproject
+*.user
+*.suo
+.env
+.env.*
+!.env.example
+**/App_Data/
+**/TestResults/
+*.db
+*.bak

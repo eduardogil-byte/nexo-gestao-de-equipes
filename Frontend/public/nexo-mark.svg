@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="156" height="156" viewBox="0 0 156 156" fill="none" role="img" aria-label="Símbolo Nexo">
+<path d="M26 49 78 18 130 49 130 109 78 139 26 109Z" stroke="#0F172A" stroke-width="8" stroke-linejoin="round"/>
+<path d="M78 18 130 49 130 109" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+<path d="M26 49 26 109 78 139" stroke="#0D9488" stroke-width="8" stroke-linecap="round"/>
+<circle cx="26" cy="49" r="12" fill="#0F172A"/><circle cx="78" cy="18" r="12" fill="#2563EB"/><circle cx="130" cy="49" r="12" fill="#2563EB"/><circle cx="130" cy="109" r="12" fill="#0F172A"/><circle cx="78" cy="139" r="12" fill="#0D9488"/><circle cx="26" cy="109" r="12" fill="#0D9488"/>
+</svg>

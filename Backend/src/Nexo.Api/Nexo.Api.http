@@ -1,0 +1,95 @@
+@base = http://localhost:5088
+@token = COLE_O_JWT_AQUI
+@projectId = COLE_GUID_PROJETO_AQUI
+@taskId = COLE_GUID_TAREFA_AQUI
+
+### 01 - API pública
+GET {{base}}/api/health
+
+### 02 - Cadastrar primeiro usuário (depois execute primeiro-admin.ps1)
+POST {{base}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Coordenador de Testes",
+  "email": "coordenador@exemplo.com",
+  "password": "SenhaForte#2026",
+  "specialty": "Coordenação"
+}
+
+### 03 - Login (copie accessToken em @token)
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "coordenador@exemplo.com",
+  "password": "SenhaForte#2026"
+}
+
+### 04 - Meu perfil
+GET {{base}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### 05 - Projetos
+GET {{base}}/api/projects
+Authorization: Bearer {{token}}
+
+### 06 - Criar projeto (altere leaderId para o id retornado pelo login)
+POST {{base}}/api/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Automação de Laboratório",
+  "description": "Prototipagem e automação de equipamentos",
+  "objectives": "Automatizar processos",
+  "justification": "Aumentar eficiência",
+  "researchArea": "Eletrônica",
+  "budget": 500,
+  "expectedResults": "Protótipo funcional",
+  "plannedStart": "2026-11-05",
+  "plannedEnd": "2027-03-30",
+  "visibility": "Private",
+  "leaderId": "COLE_GUID_USUARIO_AQUI"
+}
+
+### 07 - Criar tarefa (a primeira atividade muda o projeto para Em andamento)
+POST {{base}}/api/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Testar sensores do protótipo",
+  "description": "Executar testes e registrar resultados",
+  "priority": "Normal",
+  "dueDate": "2026-11-12",
+  "assigneeIds": ["COLE_GUID_USUARIO_APROVADO_AQUI"]
+}
+
+### 08 - Registrar atividade
+POST {{base}}/api/activities
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "activityDate": "2026-11-04",
+  "projectId": "COLE_GUID_PROJETO_AQUI",
+  "taskId": null,
+  "category": "Testing",
+  "description": "Foram realizados testes iniciais do circuito.",
+  "minutesSpent": 90,
+  "partialResult": "Sensor com leitura estável",
+  "noActivity": false
+}
+
+### 09 - Dashboard geral
+GET {{base}}/api/dashboard
+Authorization: Bearer {{token}}
+
+### 10 - Progresso do projeto (3 indicadores independentes)
+GET {{base}}/api/dashboard/projects/{{projectId}}
+Authorization: Bearer {{token}}
+
+### 11 - Notificações
+GET {{base}}/api/notifications
+Authorization: Bearer {{token}}
