@@ -8,33 +8,36 @@ qualquer erro na [tabela do final](#registro-de-erros-encontrados).
 
 ## 0. Ambiente
 
-- [ ] SDK .NET 8 instalado: `dotnet --list-sdks` mostra uma linha começando com `8.`
-- [ ] Node.js 18.18+ (ideal 20 LTS): `node -v`
-- [ ] SQL Server acessível (Express, LocalDB ou instância institucional)
-- [ ] Você está na branch certa (não na `main`): `git branch --show-current`
+- [x] SDK .NET 8 instalado: `dotnet --list-sdks` mostra uma linha começando com `8.`
+- [x] Node.js 18.18+ (ideal 20 LTS): `node -v`
+- [x] SQL Server acessível (Express, LocalDB ou instância institucional)
+- [x] Você está na branch certa (não na `main`): `git branch --show-current`
 
 ## 1. Backend (pasta `Backend/`)
 
-- [ ] Configurar banco e chave JWT em `user-secrets` (fora do repositório):
+- [x] Configurar banco e chave JWT em `user-secrets` (fora do repositório):
       `.\scripts\configurar-senai.ps1 -SqlInstance '.\SQLEXPRESS'`
-- [ ] `dotnet restore Nexo.Backend.sln` sem erros
-- [ ] `dotnet build Nexo.Backend.sln` com **0 erros** (anote os avisos relevantes)
-- [ ] `dotnet test Nexo.Backend.sln` com todos os testes passando
-- [ ] A API sobe: `.\scripts\iniciar-senai.ps1` (ou `dotnet run --project src/Nexo.Api`)
-- [ ] O Swagger abre em `http://localhost:5088/swagger`
-- [ ] O banco `NexoDb` foi criado com as tabelas (confira com `scripts/verificar-sql.sql`)
-- [ ] `GET /api/health/database` responde com sucesso
+- [x] `dotnet restore Nexo.Backend.sln` sem erros
+- [x] `dotnet build Nexo.Backend.sln` com **0 erros** (anote os avisos relevantes)
+- [x] `dotnet test Nexo.Backend.sln` com todos os testes passando
+- [x] A API sobe: `.\scripts\iniciar-senai.ps1` (ou `dotnet run --project src/Nexo.Api`)
+- [x] O Swagger abre em `http://localhost:5088/swagger`
+- [x] O banco `NexoDb` foi criado com as tabelas (confira com `scripts/verificar-sql.sql`)
+- [x] `GET /api/health/database` responde com sucesso
 
 ## 2. Frontend (pasta `Frontend/`)
 
-- [ ] `npm install` sem erros
-- [ ] `npm run format:check` sem diferenças
-- [ ] `npm run typecheck` com **0 erros**
-- [ ] `npm run build` gera a pasta `dist/`
-- [ ] `Copy-Item .env.example .env` (o `.env` não vai para o Git)
-- [ ] `npm run dev` abre em `http://localhost:5173`
+- [x] `npm install` sem erros
+- [x] `npm run format:check` sem diferenças
+- [x] `npm run typecheck` com **0 erros**
+- [x] `npm run build` gera a pasta `dist/`
+- [x] `Copy-Item .env.example .env` (o `.env` não vai para o Git)
+- [x] `npm run dev` abre em `http://localhost:5173`
 
 ## 3. Fluxo de ponta a ponta (backend + frontend rodando)
+
+> O mesmo fluxo já foi validado **pela API** em 10/11/2026 (cadastro, aprovação, projeto, tarefa,
+> atividade, dashboard e bloqueio de não-membro). Falta conferir **pela interface no navegador**.
 
 - [ ] Cadastrar uma conta
 - [ ] Promover o primeiro admin (`Backend/scripts/primeiro-admin.ps1`) e reiniciar a API
