@@ -48,6 +48,6 @@ qualquer erro na [tabela do final](#registro-de-erros-encontrados).
 
 | # | Etapa | Comando | Mensagem de erro | Causa | Correção aplicada | Commit |
 | - | ----- | ------- | ---------------- | ----- | ----------------- | ------ |
-| 1 |       |         |                  |       |                   |        |
+| 1 | Frontend | `npm run typecheck` | `src/lib/api.ts(1,27): error TS2339: Property 'env' does not exist on type 'ImportMeta'` | Faltava o arquivo de tipos do Vite, então o TypeScript não conhecia `import.meta.env` | Criado `Frontend/src/vite-env.d.ts` com `/// <reference types="vite/client" />` | Etapa 2 |
 | 2 |       |         |                  |       |                   |        |
 | 3 |       |         |                  |       |                   |        |
