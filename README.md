@@ -29,7 +29,7 @@ O navegador só conversa com a API. Quem acessa o banco é **somente o backend**
 | Backend  | ASP.NET Core 8 (Minimal APIs), Entity Framework Core, ASP.NET Identity, JWT |
 | Banco    | SQL Server (Express, LocalDB ou instância institucional)                    |
 | Frontend | React 18, TypeScript, Vite, Tailwind CSS, React Query, React Router         |
-| Testes   | xUnit (projeto em `Backend/tests`)                                          |
+| Testes   | xUnit + WebApplicationFactory (integração, em `Backend/tests`)              |
 
 ## Funcionalidades do MVP
 

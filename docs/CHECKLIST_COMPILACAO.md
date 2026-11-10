@@ -20,6 +20,8 @@ qualquer erro na [tabela do final](#registro-de-erros-encontrados).
 - [x] `dotnet restore Nexo.Backend.sln` sem erros
 - [x] `dotnet build Nexo.Backend.sln` com **0 erros** (anote os avisos relevantes)
 - [x] `dotnet test Nexo.Backend.sln` com todos os testes passando
+      (inclui testes de integração que usam o banco `NexoDb_Tests`, recriado a cada execução;
+      **pare a API antes**, senão o build falha por arquivo em uso)
 - [x] A API sobe: `.\scripts\iniciar-senai.ps1` (ou `dotnet run --project src/Nexo.Api`)
 - [x] O Swagger abre em `http://localhost:5088/swagger`
 - [x] O banco `NexoDb` foi criado com as tabelas (confira com `scripts/verificar-sql.sql`)
