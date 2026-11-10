@@ -1,25 +1,240 @@
-import {type ReactNode,useEffect,useState} from 'react';
-import {AlertCircle,CheckCircle2,LoaderCircle,X} from 'lucide-react';
-import type {Priority,ProjectState,WorkState} from '../lib/types';
-import {priorityLabels,projectStateLabels,taskStateLabels} from '../lib/types';
-export function Mark({size=34,light=false}:{size?:number;light?:boolean}){
-return <svg width={size} height={size} viewBox="0 0 156 156" fill="none" aria-hidden="true"><path d="M26 49 78 18 130 49 130 109 78 139 26 109Z" stroke={light?'#F8FAFC':'#0F172A'} strokeWidth="8"/><path d="M78 18 130 49 130 109" stroke={light?'#60A5FA':'#2563EB'} strokeWidth="8"/><path d="M26 49 26 109 78 139" stroke={light?'#2DD4BF':'#0D9488'} strokeWidth="8"/>{[[26,49],[78,18],[130,49],[130,109],[78,139],[26,109]].map(([cx,cy],i)=><circle key={i} cx={cx} cy={cy} r="12" fill={i===0||i===3?light?'#F8FAFC':'#0F172A':i===1||i===2?light?'#60A5FA':'#2563EB':light?'#2DD4BF':'#0D9488'}/>)}</svg>;
+import { type ReactNode, useEffect, useState } from 'react';
+import { AlertCircle, CheckCircle2, LoaderCircle, X } from 'lucide-react';
+import type { Priority, ProjectState, WorkState } from '../lib/types';
+import { priorityLabels, projectStateLabels, taskStateLabels } from '../lib/types';
+export function Mark({ size = 34, light = false }: { size?: number; light?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 156 156" fill="none" aria-hidden="true">
+      <path
+        d="M26 49 78 18 130 49 130 109 78 139 26 109Z"
+        stroke={light ? '#F8FAFC' : '#0F172A'}
+        strokeWidth="8"
+      />
+      <path d="M78 18 130 49 130 109" stroke={light ? '#60A5FA' : '#2563EB'} strokeWidth="8" />
+      <path d="M26 49 26 109 78 139" stroke={light ? '#2DD4BF' : '#0D9488'} strokeWidth="8" />
+      {[
+        [26, 49],
+        [78, 18],
+        [130, 49],
+        [130, 109],
+        [78, 139],
+        [26, 109],
+      ].map(([cx, cy], i) => (
+        <circle
+          key={i}
+          cx={cx}
+          cy={cy}
+          r="12"
+          fill={
+            i === 0 || i === 3
+              ? light
+                ? '#F8FAFC'
+                : '#0F172A'
+              : i === 1 || i === 2
+                ? light
+                  ? '#60A5FA'
+                  : '#2563EB'
+                : light
+                  ? '#2DD4BF'
+                  : '#0D9488'
+          }
+        />
+      ))}
+    </svg>
+  );
 }
-export function Brand({light=false}:{light?:boolean}){return <div className="flex items-center gap-2.5"><Mark light={light} size={42}/><div><div className={`text-2xl font-extrabold tracking-tight ${light?'text-white':'text-slate-900'}`}>Nexo</div><div className={`text-[10px] tracking-wide ${light?'text-slate-400':'text-slate-500'}`}>Projetos e equipes de pesquisa</div></div></div>}
-export function Status({value}:{value:ProjectState|WorkState|Priority|string}){
-const labels:{[key:string]:string}={...projectStateLabels,...taskStateLabels,...priorityLabels,Pending:'Pendente',Approved:'Aprovado',Rejected:'Rejeitado',Open:'Aberto',Resolved:'Resolvido'};
-const c:{[key:string]:string}={Proposed:'bg-slate-100 text-slate-600',NotStarted:'bg-slate-100 text-slate-600',InProgress:'bg-blue-50 text-blue-700',Completed:'bg-emerald-50 text-emerald-700',Paused:'bg-amber-50 text-amber-700',Blocked:'bg-amber-50 text-amber-700',Cancelled:'bg-red-50 text-red-700',Low:'bg-slate-100 text-slate-600',Normal:'bg-slate-100 text-slate-600',High:'bg-orange-50 text-orange-700',Urgent:'bg-red-50 text-red-700',Pending:'bg-amber-50 text-amber-700',Approved:'bg-emerald-50 text-emerald-700',Rejected:'bg-red-50 text-red-700',Open:'bg-amber-50 text-amber-700',Resolved:'bg-emerald-50 text-emerald-700'};
-return <span className={`pill ${c[value]||'bg-slate-100 text-slate-600'}`}>{labels[value]||value}</span>;
+export function Brand({ light = false }: { light?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <Mark light={light} size={42} />
+      <div>
+        <div
+          className={`text-2xl font-extrabold tracking-tight ${light ? 'text-white' : 'text-slate-900'}`}
+        >
+          Nexo
+        </div>
+        <div className={`text-[10px] tracking-wide ${light ? 'text-slate-400' : 'text-slate-500'}`}>
+          Projetos e equipes de pesquisa
+        </div>
+      </div>
+    </div>
+  );
 }
-export function Loading(){return <div className="flex items-center justify-center gap-2 py-16 text-sm text-slate-500"><LoaderCircle className="h-5 w-5 animate-spin text-nexo-blue"/> Carregando...</div>}
-export function ErrorMessage({error}:{error:unknown}){if(!error)return null;return <div role="alert" className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0"/>{error instanceof Error?error.message:String(error)}</div>}
-export function Empty({text='Nenhum resultado encontrado.'}:{text?:string}){return <div className="empty">{text}</div>}
-export function Field({label,children}:{label:string;children:ReactNode}){return <label className="block"><span className="field-label">{label}</span>{children}</label>}
-export function Modal({title,children,onClose,wide=false}:{title:string;children:ReactNode;onClose:()=>void;wide?:boolean}){
-useEffect(()=>{const onKey=(e:KeyboardEvent)=>{if(e.key==='Escape')onClose()};window.addEventListener('keydown',onKey);return ()=>window.removeEventListener('keydown',onKey);},[onClose]);
-return <div className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/55 p-3 backdrop-blur-[2px]" onMouseDown={e=>{if(e.target===e.currentTarget)onClose();}}><section role="dialog" aria-modal="true" aria-label={title} className={`max-h-[92vh] w-full overflow-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-7 ${wide?'max-w-3xl':'max-w-xl'}`}><div className="mb-5 flex items-center justify-between gap-3"><h2 className="text-xl font-extrabold">{title}</h2><button onClick={onClose} aria-label="Fechar" className="rounded-lg p-2 text-slate-500 hover:bg-slate-100"><X size={20}/></button></div>{children}</section></div>;
+export function Status({ value }: { value: ProjectState | WorkState | Priority | string }) {
+  const labels: { [key: string]: string } = {
+    ...projectStateLabels,
+    ...taskStateLabels,
+    ...priorityLabels,
+    Pending: 'Pendente',
+    Approved: 'Aprovado',
+    Rejected: 'Rejeitado',
+    Open: 'Aberto',
+    Resolved: 'Resolvido',
+  };
+  const c: { [key: string]: string } = {
+    Proposed: 'bg-slate-100 text-slate-600',
+    NotStarted: 'bg-slate-100 text-slate-600',
+    InProgress: 'bg-blue-50 text-blue-700',
+    Completed: 'bg-emerald-50 text-emerald-700',
+    Paused: 'bg-amber-50 text-amber-700',
+    Blocked: 'bg-amber-50 text-amber-700',
+    Cancelled: 'bg-red-50 text-red-700',
+    Low: 'bg-slate-100 text-slate-600',
+    Normal: 'bg-slate-100 text-slate-600',
+    High: 'bg-orange-50 text-orange-700',
+    Urgent: 'bg-red-50 text-red-700',
+    Pending: 'bg-amber-50 text-amber-700',
+    Approved: 'bg-emerald-50 text-emerald-700',
+    Rejected: 'bg-red-50 text-red-700',
+    Open: 'bg-amber-50 text-amber-700',
+    Resolved: 'bg-emerald-50 text-emerald-700',
+  };
+  return (
+    <span className={`pill ${c[value] || 'bg-slate-100 text-slate-600'}`}>
+      {labels[value] || value}
+    </span>
+  );
 }
-export function Notice({message,type='success',onClose}:{message:string;type?:'success'|'error';onClose:()=>void}){return <div role="status" className={`fixed bottom-5 right-5 z-[100] flex max-w-sm items-center gap-2 rounded-xl border px-4 py-3 shadow-xl ${type==='success'?'border-emerald-200 bg-white text-emerald-700':'border-red-200 bg-white text-red-700'}`}>{type==='success'?<CheckCircle2 size={18}/>:<AlertCircle size={18}/>}<span className="text-sm">{message}</span><button onClick={onClose} aria-label="Fechar aviso"><X size={16}/></button></div>}
-export function PageHead({title,description,actions}:{title:string;description?:string;actions?:ReactNode}){return <div className="mb-7 flex flex-wrap items-start justify-between gap-4"><div><h1 className="page-title">{title}</h1>{description&&<p className="mt-1 text-sm text-slate-500">{description}</p>}</div>{actions}</div>}
-export function ProgressBar({value}:{value:number|null|undefined}){return <div className="h-2.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-nexo-blue transition-all" style={{width:`${Math.max(0,Math.min(100,value||0))}%`}}/></div>}
-export function useNotice(){const [message,setMessage]=useState('');const [type,setType]=useState<'success'|'error'>('success');const success=(m:string)=>{setType('success');setMessage(m)};const failure=(error:unknown)=>{setType('error');setMessage(error instanceof Error?error.message:String(error))};const notice=message?<Notice message={message} type={type} onClose={()=>setMessage('')}/>:null;return {success,failure,notice};}
+export function Loading() {
+  return (
+    <div className="flex items-center justify-center gap-2 py-16 text-sm text-slate-500">
+      <LoaderCircle className="h-5 w-5 animate-spin text-nexo-blue" /> Carregando...
+    </div>
+  );
+}
+export function ErrorMessage({ error }: { error: unknown }) {
+  if (!error) return null;
+  return (
+    <div
+      role="alert"
+      className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
+      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+      {error instanceof Error ? error.message : String(error)}
+    </div>
+  );
+}
+export function Empty({ text = 'Nenhum resultado encontrado.' }: { text?: string }) {
+  return <div className="empty">{text}</div>;
+}
+export function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <label className="block">
+      <span className="field-label">{label}</span>
+      {children}
+    </label>
+  );
+}
+export function Modal({
+  title,
+  children,
+  onClose,
+  wide = false,
+}: {
+  title: string;
+  children: ReactNode;
+  onClose: () => void;
+  wide?: boolean;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/55 p-3 backdrop-blur-[2px]"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className={`max-h-[92vh] w-full overflow-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-7 ${wide ? 'max-w-3xl' : 'max-w-xl'}`}
+      >
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <h2 className="text-xl font-extrabold">{title}</h2>
+          <button
+            onClick={onClose}
+            aria-label="Fechar"
+            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        {children}
+      </section>
+    </div>
+  );
+}
+export function Notice({
+  message,
+  type = 'success',
+  onClose,
+}: {
+  message: string;
+  type?: 'success' | 'error';
+  onClose: () => void;
+}) {
+  return (
+    <div
+      role="status"
+      className={`fixed bottom-5 right-5 z-[100] flex max-w-sm items-center gap-2 rounded-xl border px-4 py-3 shadow-xl ${type === 'success' ? 'border-emerald-200 bg-white text-emerald-700' : 'border-red-200 bg-white text-red-700'}`}
+    >
+      {type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+      <span className="text-sm">{message}</span>
+      <button onClick={onClose} aria-label="Fechar aviso">
+        <X size={16} />
+      </button>
+    </div>
+  );
+}
+export function PageHead({
+  title,
+  description,
+  actions,
+}: {
+  title: string;
+  description?: string;
+  actions?: ReactNode;
+}) {
+  return (
+    <div className="mb-7 flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 className="page-title">{title}</h1>
+        {description && <p className="mt-1 text-sm text-slate-500">{description}</p>}
+      </div>
+      {actions}
+    </div>
+  );
+}
+export function ProgressBar({ value }: { value: number | null | undefined }) {
+  return (
+    <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+      <div
+        className="h-full rounded-full bg-nexo-blue transition-all"
+        style={{ width: `${Math.max(0, Math.min(100, value || 0))}%` }}
+      />
+    </div>
+  );
+}
+export function useNotice() {
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState<'success' | 'error'>('success');
+  const success = (m: string) => {
+    setType('success');
+    setMessage(m);
+  };
+  const failure = (error: unknown) => {
+    setType('error');
+    setMessage(error instanceof Error ? error.message : String(error));
+  };
+  const notice = message ? (
+    <Notice message={message} type={type} onClose={() => setMessage('')} />
+  ) : null;
+  return { success, failure, notice };
+}

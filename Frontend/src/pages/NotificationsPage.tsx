@@ -1,2 +1,87 @@
-import {useQuery,useQueryClient} from '@tanstack/react-query';import {Bell,CheckCheck} from 'lucide-react';import {Link} from 'react-router-dom';import {get,post} from '../lib/api';import type {Notification} from '../lib/types';import {prettyDateTime} from '../lib/types';import {Empty,ErrorMessage,Loading,PageHead,useNotice}from '../components/UI';
-export default function NotificationsPage(){const qc=useQueryClient();const {notice,success,failure}=useNotice();const {data:items=[],error,isLoading}=useQuery({queryKey:['notifications'],queryFn:()=>get<Notification[]>('/notifications')});const refresh=()=>{qc.invalidateQueries({queryKey:['notifications']});qc.invalidateQueries({queryKey:['notification-head']});qc.invalidateQueries({queryKey:['dashboard']})};async function mark(id?:string){try{await post(id?`/notifications/${id}/read`:'/notifications/read-all');refresh();success(id?'Notificação marcada como lida.':'Notificações marcadas como lidas.')}catch(e){failure(e)}}return <><PageHead title="Notificações" description="Acompanhe avisos de tarefas, projetos e solicitações." actions={<button className="btn-secondary" onClick={()=>void mark()}><CheckCheck size={17}/> Marcar todas como lidas</button>}/>{isLoading?<Loading/>:error?<ErrorMessage error={error}/>:items.length===0?<Empty text="Você não tem notificações por enquanto."/>:<div className="card divide-y divide-slate-100">{items.map(n=><div key={n.id} className={`flex items-start gap-3 p-5 ${!n.readAtUtc?'bg-blue-50/35':''}`}><div className="rounded-xl bg-blue-50 p-3 text-nexo-blue"><Bell size={20}/></div><div className="min-w-0 flex-1"><p className="text-sm font-semibold">{n.message}</p><p className="mt-1 text-xs text-slate-500">{prettyDateTime(n.createdAtUtc)}</p>{n.projectId&&<Link onClick={()=>{if(!n.readAtUtc)void mark(n.id)}} to={`/projetos/${n.projectId}${n.taskId?`?tarefa=${n.taskId}`:''}`} className="mt-2 inline-block text-xs font-bold text-nexo-blue">Abrir projeto</Link>}</div>{!n.readAtUtc&&<button className="btn-secondary text-xs" onClick={()=>void mark(n.id)}>Marcar lida</button>}</div>)}</div>}{notice}</>}
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Bell, CheckCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { get, post } from '../lib/api';
+import type { Notification } from '../lib/types';
+import { prettyDateTime } from '../lib/types';
+import { Empty, ErrorMessage, Loading, PageHead, useNotice } from '../components/UI';
+export default function NotificationsPage() {
+  const qc = useQueryClient();
+  const { notice, success, failure } = useNotice();
+  const {
+    data: items = [],
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: () => get<Notification[]>('/notifications'),
+  });
+  const refresh = () => {
+    qc.invalidateQueries({ queryKey: ['notifications'] });
+    qc.invalidateQueries({ queryKey: ['notification-head'] });
+    qc.invalidateQueries({ queryKey: ['dashboard'] });
+  };
+  async function mark(id?: string) {
+    try {
+      await post(id ? `/notifications/${id}/read` : '/notifications/read-all');
+      refresh();
+      success(id ? 'Notificação marcada como lida.' : 'Notificações marcadas como lidas.');
+    } catch (e) {
+      failure(e);
+    }
+  }
+  return (
+    <>
+      <PageHead
+        title="Notificações"
+        description="Acompanhe avisos de tarefas, projetos e solicitações."
+        actions={
+          <button className="btn-secondary" onClick={() => void mark()}>
+            <CheckCheck size={17} /> Marcar todas como lidas
+          </button>
+        }
+      />
+      {isLoading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorMessage error={error} />
+      ) : items.length === 0 ? (
+        <Empty text="Você não tem notificações por enquanto." />
+      ) : (
+        <div className="card divide-y divide-slate-100">
+          {items.map((n) => (
+            <div
+              key={n.id}
+              className={`flex items-start gap-3 p-5 ${!n.readAtUtc ? 'bg-blue-50/35' : ''}`}
+            >
+              <div className="rounded-xl bg-blue-50 p-3 text-nexo-blue">
+                <Bell size={20} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold">{n.message}</p>
+                <p className="mt-1 text-xs text-slate-500">{prettyDateTime(n.createdAtUtc)}</p>
+                {n.projectId && (
+                  <Link
+                    onClick={() => {
+                      if (!n.readAtUtc) void mark(n.id);
+                    }}
+                    to={`/projetos/${n.projectId}${n.taskId ? `?tarefa=${n.taskId}` : ''}`}
+                    className="mt-2 inline-block text-xs font-bold text-nexo-blue"
+                  >
+                    Abrir projeto
+                  </Link>
+                )}
+              </div>
+              {!n.readAtUtc && (
+                <button className="btn-secondary text-xs" onClick={() => void mark(n.id)}>
+                  Marcar lida
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {notice}
+    </>
+  );
+}

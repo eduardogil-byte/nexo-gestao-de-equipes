@@ -1,0 +1,16 @@
+# Build
+bin/
+obj/
+dist/
+TestResults/
+
+# Dependências
+node_modules/
+
+# Segredos e configuração local
+.env
+App_Data/
+
+# IDE
+.vs/
+*.tsbuildinfo
